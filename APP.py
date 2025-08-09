@@ -16,8 +16,10 @@ X_test = pd.read_csv('X_test.csv')
 
 #定义特征名称，对应数据集中的列名
 feature_names = ["BC","YiDC", "PDC", "Age", "Pension", "WHtR", "CO", "BMI", "Smoking", "SCL", "Sleepquality", "Pain", "Eyesight", "Mobilitydifficulty", "Hyperlipidemia", "Hyperuricemia","FLD", "OA", "Diabetes"]
+
 #Streamlit 用户界面
 st.title("Elderly Hypertension Predictor")
+
 BC = st.selectbox("Balanced constitution (BC):", options=[0, 1])
 
 YiDC = st.selectbox("Yin-deficiency constitution (YiDC):", options=[0, 1])

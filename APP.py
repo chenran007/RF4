@@ -1,192 +1,63 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import streamlit as st
-
-
-# In[2]:
-
 
 import joblib
 
-
-# In[3]:
-
-
 import pandas as pd
-
-
-# In[7]:
-
 
 import numpy as np
 
-
-# In[9]:
-
-
 import shap
-
-
-# In[10]:
-
 
 import matplotlib.pyplot as plt
 
-
-# In[13]:
-
-
 model = joblib.load('RF.pkl')
-
-
-# In[15]:
-
 
 X_test = pd.read_csv('X_test.csv')
 
-
-# In[17]:
-
-
 #定义特征名称，对应数据集中的列名
 feature_names = ["BC","YiDC", "PDC", "Age", "Pension", "WHtR", "CO", "BMI", "Smoking", "SCL", "Sleepquality", "Pain", "Eyesight", "Mobilitydifficulty", "Hyperlipidemia", "Hyperuricemia","FLD", "OA", "Diabetes"]
-
-
-# In[19]:
-
-
 #Streamlit 用户界面
 st.title("Elderly Hypertension Predictor")
-
-
-# In[21]:
-
-
 BC = st.selectbox("Balanced constitution (BC):", options=[0, 1])
-
-
-# In[23]:
-
 
 YiDC = st.selectbox("Yin-deficiency constitution (YiDC):", options=[0, 1])
 
-
-# In[25]:
-
-
 PDC = st.selectbox("Phlegm-dampness constitution (PDC):", options=[0, 1])
-
-
-# In[27]:
-
 
 Age = st.selectbox("Age:", options=[0, 1,2])
 
-
-# In[29]:
-
-
 Pension = st.selectbox("Pension:", options=[0, 1])
-
-
-# In[31]:
-
 
 WHtR = st.selectbox("Waist-to-height ratio (WHtR):", options=[0, 1])
 
-
-# In[33]:
-
-
 CO = st.selectbox("Central obesity (CO):", options=[0, 1])
-
-
-# In[35]:
-
 
 BMI = st.selectbox("Body Mass Index (BMI):", options=[0,1,2,3])
 
-
-# In[37]:
-
-
 Smoking = st.selectbox("Smoking:", options=[0, 1])
-
-
-# In[39]:
-
 
 SCL = st.selectbox("Spiritual and cultural life (SCL):", options=[0, 1])
 
-
-# In[41]:
-
-
 Sleepquality = st.selectbox("Sleep quality:", options=[0,1,2,3])
-
-
-# In[43]:
-
 
 Pain = st.selectbox("Pain:", options=[0, 1])
 
-
-# In[45]:
-
-
 Eyesight = st.selectbox("Eyesight:", options=[0, 1,2,3])
-
-
-# In[47]:
-
 
 Mobilitydifficulty = st.selectbox("Mobility difficulty:", options=[0, 1])
 
-
-# In[49]:
-
-
 Hyperlipidemia = st.selectbox("Hyperlipidemia:", options=[0, 1])
-
-
-# In[51]:
-
 
 Hyperuricemia = st.selectbox("Hyperuricemia:", options=[0, 1])
 
-
-# In[53]:
-
-
 FLD = st.selectbox("Fatty liver disease (FLD):", options=[0, 1])
-
-
-# In[55]:
-
 
 OA = st.selectbox("Osteoarthritis (OA):", options=[0, 1])
 
-
-# In[57]:
-
-
 Diabetes = st.selectbox("Diabetes:", options=[0, 1])
 
-
-# In[59]:
-
-
-# 实现输入数据并进行预测
 feature_values = [BC,YiDC, PDC, Age, Pension, WHtR, CO, BMI, Smoking, SCL, Sleepquality, Pain, Eyesight, Mobilitydifficulty, Hyperlipidemia, Hyperuricemia,FLD, OA, Diabetes]  # 将用户输入的特征值存入列表
 features = np.array([feature_values])  # 将特征转换为 NumPy 数组，适用于模型输入
-
-
-# In[61]:
-
 
 # 当用户点击 "Predict" 按钮时执行以下代码
 if st.button("Predict"):
@@ -223,30 +94,14 @@ if st.button("Predict"):
         )
         st.write(advice)
 
-
-# In[63]:
-
-
 # SHAP 解释
 st.subheader("SHAP Force Plot Explanation")
-
-
-# In[65]:
-
 
 # 创建 SHAP 解释器，基于树模型（如随机森林）
 explainer_shap = shap.TreeExplainer(model)
 
-
-# In[67]:
-
-
 # 计算 SHAP 值，用于解释模型的预测
 shap_values = explainer_shap.shap_values(pd.DataFrame([feature_values], columns=feature_names))
-
-
-# In[69]:
-
 
 # 根据预测类别显示 SHAP 强制图
 # 期望值（基线值）
@@ -262,7 +117,7 @@ plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
 st.pyplot(plt.gcf(), use_container_width=True)
 
 
-# In[ ]:
+
 
 
 
